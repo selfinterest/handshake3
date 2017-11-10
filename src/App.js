@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import './App.css';
 import TabView from './TabView/TabView';
+import BoxContent from './BoxContent/BoxContent';
 
-import Countdown from './Countdown/Countdown';
 
 //const DEFAULT_DURATION = 60 * 20;
 const DEFAULT_DURATION = 5;
@@ -31,49 +31,96 @@ const getNewCode = (function(){
     }
 }());
 
+const fetchSession = function(){
+    return Promise.resolve({
+        seconds: DEFAULT_DURATION,
+        code: getNewCode()
+    })
+}
 class App extends Component {
 
-    componentWillMount(){
-        this.setState({seconds: DEFAULT_DURATION, code: getNewCode()});
+    state = {loading: true};
 
-        setInterval(() => {
+    componentWillMount(){
+
+
+        const handleTimeout = () => {
             this.setState( () => {
                 const seconds = this.state.seconds;
                 const newSeconds = seconds - 1;
 
                 if(newSeconds < 0) {
-                    //time expired. Generate new token
+                    //time expired. Generate new token. This would be asynchronous normally.
+                    setTimeout(handleTimeout, 1000);
                     return {
                         seconds: DEFAULT_DURATION,
-                        code: getNewCode()
+                        code: getNewCode(),
+                        loading: false
                     }
+
+                } else {
+
+                    setTimeout(handleTimeout, 1000);
+                    return {seconds: newSeconds, loading: false};
                 }
 
-                return {seconds: newSeconds};
-            })
-        }, 1000);
+
+            });
+
+        }
+        fetchSession().then( ({seconds, code}) => {
+            this.setState({seconds, code});
+            setTimeout(handleTimeout, 1000);
+        });
+
+        //this.setState({seconds: DEFAULT_DURATION, code: getNewCode()});
+
+
 
     }
-  render() {
 
+    renderLoading(){
+        return <div>Loading...</div>
+    }
+
+    renderError(){
+        return <div>Error...</div>
+    }
+
+    renderCode(){
+
+    }
+    render(){
+        return (<div className="App">
+            <div className="jumbotron vertical-center App-container">
+                <div className="container text-center">
+                    <BoxContent {...this.state}/>
+                </div>
+            </div>
+        </div>)
+    }
+  render2() {
+      let boxContent;
+      /*if(!this.state || !this.state.code) {
+          boxContent = <div>Loading...</div>;
+      } else {
+          boxContent = <div>{ this.state.code }</div>;
+      }*/
+
+      /*if (this.state.loading) {
+          return this.renderLoading();
+      } else if (this.state.code) {
+          return this.renderCode();
+      } else {
+          return this.renderError();
+      }*/
 
     return (
       <div className="App">
           <div className="jumbotron vertical-center App-container">
               <div className="container text-center">
-                  <div className="row">
-                      <div className="col-md-8 col-md-offset-2">
-                          <div className="box">
-                              { this.state.code }
-                          </div>
-                      </div>
-                  </div>
-                  <div className="row">
-                      <div id="timer" className="col-xs-2 col-xs-offset-2">
-                          <Countdown count={this.state.seconds}/>
-                      </div>
-                      <div id="naval" className="col-xs-3 col-xs-offset-3">Alpha Bravo Delta</div>
-                  </div>
+                  <BoxContent/>
+
 
               </div>
           </div>
