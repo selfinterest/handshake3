@@ -9,16 +9,19 @@
 
 .box {
     border: 2px solid green;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     padding: 40px;
+    font-size: 6rem;
 }
 
 #timer {
     text-align: left;
+    font-size: 2rem;
 }
 
 #naval {
     text-align: right;
+    font-size: 2rem;
 }
