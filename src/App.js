@@ -7,9 +7,7 @@ import TabView from './TabView/TabView';
 import BoxContent from './BoxContent/BoxContent';
 
 
-//const DEFAULT_DURATION = 60 * 20;
-const DEFAULT_DURATION = 5;
-const DEFAULT_CODE = "TCW";
+import {H3_TOKEN_KEY, API} from "./constants";
 
 
 const getNewCode = (function(){
@@ -32,10 +30,29 @@ const getNewCode = (function(){
 }());
 
 const fetchSession = function(){
-    return Promise.resolve({
+    // Look for an existing h3 session in local storage
+    const localSession = localStorage.getItem(H3_TOKEN_KEY);
+    let existingCode = '';
+
+    const sessionInfo = {};
+
+    if(localSession) {
+        existingCode = "/" + localSession.token;
+        sessionInfo.session = localSession;
+    }
+
+    const request = new Request(API.getToken + existingCode, {
+        url: API.getToken + existingCode,
+        method: "POST",
+        body: JSON.stringify(sessionInfo)
+    });
+
+    /*return Promise.resolve({
         seconds: DEFAULT_DURATION,
         code: getNewCode()
-    })
+    })*/
+
+    return fetch(request).then( data => data.json())
 }
 class App extends Component {
 
@@ -51,12 +68,18 @@ class App extends Component {
 
                 if(newSeconds < 0) {
                     //time expired. Generate new token. This would be asynchronous normally.
-                    setTimeout(handleTimeout, 1000);
-                    return {
-                        seconds: DEFAULT_DURATION,
+                    fetchSession()
+                        .then(data => {
+                            this.setState({loading: false, ...data});
+                            setTimeout(handleTimeout, 1000);
+                        })
+
+
+                    /*return {
+                        duration: DEFAULT_DURATION,
                         code: getNewCode(),
                         loading: false
-                    }
+                    }*/
 
                 } else {
 
@@ -68,8 +91,10 @@ class App extends Component {
             });
 
         }
-        fetchSession().then( ({seconds, code}) => {
-            this.setState({seconds, code});
+
+        fetchSession().then(data  => {
+            console.log(data);
+            this.setState(data);
             setTimeout(handleTimeout, 1000);
         });
 
@@ -79,13 +104,6 @@ class App extends Component {
 
     }
 
-    renderLoading(){
-        return <div>Loading...</div>
-    }
-
-    renderError(){
-        return <div>Error...</div>
-    }
 
     renderCode(){
 
@@ -99,34 +117,6 @@ class App extends Component {
             </div>
         </div>)
     }
-  render2() {
-      let boxContent;
-      /*if(!this.state || !this.state.code) {
-          boxContent = <div>Loading...</div>;
-      } else {
-          boxContent = <div>{ this.state.code }</div>;
-      }*/
-
-      /*if (this.state.loading) {
-          return this.renderLoading();
-      } else if (this.state.code) {
-          return this.renderCode();
-      } else {
-          return this.renderError();
-      }*/
-
-    return (
-      <div className="App">
-          <div className="jumbotron vertical-center App-container">
-              <div className="container text-center">
-                  <BoxContent/>
-
-
-              </div>
-          </div>
-      </div>
-    );
-  }
 }
 
 export default App;

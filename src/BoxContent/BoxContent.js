@@ -19,7 +19,7 @@ class BoxContent extends Component {
             <div className="row">
                 <div className="col-md-8 col-md-offset-2">
                     <div className="box">
-                        {this.props.code}
+                        {this.props.token}
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@ class BoxContent extends Component {
                     <Countdown count={this.props.seconds}/>
                 </div>
                 <div id="naval" className="col-xs-3 col-xs-offset-3">
-                    <Nato code={this.props.code}/>
+                    <Nato code={this.props.token}/>
                 </div>
             </div>
             </div>
@@ -40,7 +40,7 @@ class BoxContent extends Component {
     render(){
         if (this.props.loading) {
             return this.renderLoading();
-        } else if (this.props.code) {
+        } else if (this.props.token) {
             return this.renderCode();
         } else {
             return this.renderError();
