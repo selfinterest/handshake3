@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import './App.css';
@@ -112,6 +112,7 @@ class App extends Component {
         return (<div className="App">
             <div className="jumbotron vertical-center App-container">
                 <div className="container text-center">
+                    <img src={logo}/>
                     <BoxContent {...this.state}/>
                 </div>
             </div>
