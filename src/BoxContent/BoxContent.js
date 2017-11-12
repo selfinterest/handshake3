@@ -25,10 +25,10 @@ class BoxContent extends Component {
             </div>
 
             <div className="row">
-                <div id="timer" className="col-xs-3 col-xs-offset-2">
+                <div id="timer" className="col-xs-4 col-xs-offset-2">
                     <Countdown count={this.props.seconds}/>
                 </div>
-                <div id="naval" className="col-xs-3 col-xs-offset-2">
+                <div id="naval" className="col-xs-3 col-xs-offset-1">
                     <Nato code={this.props.token}/>
                 </div>
             </div>
