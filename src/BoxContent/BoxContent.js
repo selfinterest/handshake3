@@ -35,7 +35,7 @@ class BoxContent extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-8 col-md-offset-2">
-                        <TokenInput/>
+                        <TokenInput {...this.props}/>
                     </div>
                 </div>
             </div>

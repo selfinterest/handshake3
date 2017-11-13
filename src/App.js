@@ -56,8 +56,19 @@ const fetchSession = function(){
 }
 class App extends Component {
 
-    state = {loading: true};
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+            onNewContact: this.onNewContact.bind(this)
+        }
+    }
+
+    onNewContact(contact) {
+        console.log(contact);
+    }
     componentWillMount(){
 
 

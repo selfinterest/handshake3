@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./TokenInput.css";
+import {API} from "../constants";
 
 class TokenInput extends Component {
 
@@ -49,12 +50,56 @@ class TokenInput extends Component {
         this.setState({tokenEntry: characters}, () => {
             if (characters && characters.length >= 3) {
                 this.loading = true;
-                setTimeout(() => {
-                    this.loading = false;
-                    this.setState({tokenEntry: ''})
-                }, 1000)
+                const now = Date.now();
+                this.fetchCode(characters)
+                    .then(response => {
+                        return response.json().then(data => {
+                            if (response.ok) {
+                                return data;
+                            } else {
+                                return Promise.reject({status: response.status, data});
+                            }
+                        });
+                    })
+                    .catch( (err) => {
+                        console.warn(err);
+                        return {
+                            user: null
+                        }
+                    })
+                    .then( data => {
+
+                        const newNow = Date.now();
+                        let delay = 1000 - (newNow - now);
+                        if(delay <= 0) delay = 0;
+                        setTimeout(() => {
+                            if(this.loading) {
+                                this.loading = false;
+                                this.setState({tokenEntry: ''});
+                                this.props.onNewContact(data);
+                            }
+
+                        }, delay);      //this delay is strictly for aesthetic purposes
+
+                    })
+
+                /*setTimeout(() => {
+                    if(this.loading) {  //it is possible for loading to be interrupted
+                        this.loading = false;
+                        this.setState({tokenEntry: ''})
+                    }
+
+                }, 1000)*/
             }
         })
+    }
+
+    fetchCode(code){
+        const request = new Request(API.getUser + "/" + code, {
+            method: "GET"
+        });
+
+        return fetch(request);
     }
 
     render() {
