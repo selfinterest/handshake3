@@ -10,7 +10,25 @@
 }
 
 .connections-menu-header-button:hover {
+    text-decoration: none;
     border-bottom: 1px solid #75bd4b;
+
+}
+
+.connections-menu {
+    left: -121px;
+}
+
+.connections-menu li {
+    border-bottom: 1px solid;
+    padding: 5px;
+
+}
+
+.connections-menu li:first-child {}
+
+.connections-menu li:last-child {
+    border: none;
 }
 
 /*.connections-menu-header > button {
