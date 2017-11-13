@@ -25,6 +25,9 @@ const CODES = [
 
 const tokenMap = new TokenMap();
 
+
+
+
 let codeCounter = 0;
 
 const verifyToken = function(token, session) {
@@ -60,12 +63,31 @@ const makeTokenCode = function(len = 3) {
     let text = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    for (let i = 0; i < len; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    //TODO: this needs to acknowledge expired tokens, or we'll run out of codes
+    do {
+        for (let i = 0; i < len; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+    } while (tokenMap.get(text));
+
 
     debug("Made new token", text);
     return text;
 }
+
+const terrenceSession = {
+    id: "12345",
+    displayName: "Terrence C. Watson",
+    firstName: "Terrence",
+    lastName: "Watson",
+    email: "parliamentaryterrence@gmail.com",
+    twitter: "@TerrenceCWatson",
+    facebook: "https://www.facebook.com/terrencewatson101",
+    homepage: "http://www.terrencewatson.com"
+}
+
+//Add static entries to tokenMap
+tokenMap.set("TCW", terrenceSession);
+
 
 const putToken = async function(ctx, next){
     let verified = {};
@@ -76,13 +98,13 @@ const putToken = async function(ctx, next){
 
 
     if(ctx.params.token) {
-        verified = await verifyToken(token, session);
+        verified = await verifyToken(token, terrenceSession);
         debug("Token verified:", verified)
     }
 
     if(!verified.verified) {     //issue new token
         debug("Issuing a new token");
-        const token = tokenMap.set(makeTokenCode(), {});
+        const token = tokenMap.set(makeTokenCode(), terrenceSession);
         debug("Full token is ", token);
         ctx.body = token;
     } else {    //issue the same token
@@ -110,9 +132,19 @@ router.get("/api/code", async (ctx, next) => {
     }
 });
 
-router.get("/api/user/:code", async (ctx, next) => {
+router.get("/api/code/:code", async (ctx, next) => {
+    // Retrieve profile
 
-})
+    const token = tokenMap.get(ctx.params.code);
+
+    if(!token) {
+        ctx.throw(404, new Error("Token not found"));
+    }
+
+    ctx.body = token.session;
+
+
+});
 
 onerror(app);
 app.use(logger());
