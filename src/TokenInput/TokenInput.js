@@ -51,7 +51,7 @@ class TokenInput extends Component {
                 this.loading = true;
                 setTimeout(() => {
                     this.loading = false;
-                    //this.setState({tokenEntry: ''})
+                    this.setState({tokenEntry: ''})
                 }, 1000)
             }
         })
