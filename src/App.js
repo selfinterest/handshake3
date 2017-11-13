@@ -152,7 +152,7 @@ class App extends Component {
         return (<div className="App">
             <div className="jumbotron vertical-center App-container">
                 <div className="container text-center">
-                    <img src={logo}/>
+                    <img src={logo} className="logo"/>
                     <BoxContent {...this.state}/>
                 </div>
             </div>

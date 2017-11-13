@@ -30,3 +30,17 @@
 .space-below {
     margin-bottom: 5rem;
 }
+
+.slogan-box {
+    margin-bottom: 2.5rem;
+}
+.slogan {
+    font-size: 2.5rem;
+    font-weight: bold;
+
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+}

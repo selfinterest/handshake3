@@ -21,6 +21,13 @@ class BoxContent extends Component {
     renderCode(){
         return (
             <div>
+                <div className="row slogan-box">
+                    <div className="col-md-8 col-md-offset-2 hidden-xs">
+                        <div className="slogan">
+                            Temporary IDs for Permanent Connections
+                        </div>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-md-8 col-md-offset-2">
                         <div className="box">
