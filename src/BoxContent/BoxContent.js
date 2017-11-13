@@ -44,7 +44,7 @@ class BoxContent extends Component {
                         <Nato code={this.props.token}/>
                     </div>
                 </div>
-                <div className="row space-below">
+                <div className="row">
                     <div className="col-md-8 col-md-offset-2">
                         <TokenInput {...this.props}/>
                     </div>

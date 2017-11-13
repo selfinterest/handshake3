@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import "./Status.css";
 
 class Status extends Component{
 
@@ -15,7 +15,9 @@ class Status extends Component{
     renderJustAdded(){
 
         return (
-            <div>Just added {this.props.justAdded.displayName}</div>
+            <div  className="status-box">
+                <div className={ 'status' + (this.state.animating ? " animated" : '')}>Just added {this.props.justAdded.displayName}</div>
+            </div>
         )
     }
 
@@ -37,7 +39,9 @@ class Status extends Component{
         if(this.props.justAdded && this.state.animating) {
             return this.renderJustAdded()
         } else {
-            return <div></div>
+            return <div className="no-status"  style={{position: 'absolute'}}>
+
+            </div>
         }
     }
 
