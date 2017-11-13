@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "debug": "^3.1.0",
+    "font-awesome": "^4.7.0",
     "koa": "^2.4.1",
     "koa-body-parser": "^1.1.2",
     "koa-bodyparser": "^4.2.0",

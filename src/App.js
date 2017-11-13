@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import logo from './h3logo.png';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'font-awesome/css/font-awesome.css';
 import './App.css';
 import TabView from './TabView/TabView';
 import BoxContent from './BoxContent/BoxContent';
+import ConnectionsMenu from './ConnectionsMenu/ConnectionsMenu'
 import SideNav from "./SideNav/SideNav";
 
 
@@ -150,6 +152,13 @@ class App extends Component {
     }
     render(){
         return (<div className="App">
+            <div className="container menu-container">
+                <div className="connections-menu pull-right">
+                    <ConnectionsMenu connections='5'/>
+
+                </div>
+            </div>
+
             <div className="jumbotron vertical-center App-container">
                 <div className="container text-center">
                     <img src={logo} className="logo"/>
