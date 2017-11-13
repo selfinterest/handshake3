@@ -2,7 +2,7 @@
 
 const Koa = require("koa");
 const Router = require("koa-router");
-const bodyParser = require("koa-bodyparser");
+const bodyParser = require("koa-body-parser");
 const logger = require("koa-logger");
 const onerror = require("koa-onerror");
 const debug = require("debug")("handshake3");
@@ -28,7 +28,30 @@ const tokenMap = new TokenMap();
 let codeCounter = 0;
 
 const verifyToken = function(token, session) {
-    if(!session) return false;
+    if(!session) return {
+        verified: false,
+        reason: "NO_SESSION"
+    }
+
+    //Here is where we would check to see if this token now belonged to someone else, or if it was expired
+    const storedToken = tokenMap.get(token);
+    if(!storedToken) return {
+        verified: false,
+        reason: "NO_STORED_TOKEN"
+    };
+
+    const storedSession = storedToken.session;
+
+    if(!storedSession) return {
+        verified: false,
+        reason: "NO_STORED_SESSION"
+    };
+
+
+    return {
+        verified: true,
+        storedToken: storedToken
+    }
 
 }
 
@@ -45,11 +68,11 @@ const makeTokenCode = function(len = 3) {
 }
 
 const putToken = async function(ctx, next){
-    let verified;
+    let verified = {};
     const token = _.get(ctx, "params.token");
-    const session = _.get(ctx, "body.session");
+    const session = _.get(ctx, "request.body.session");
 
-    debug("Doing the token thing", ctx.params.token, ctx.body);
+    debug("Doing the token thing", ctx.params.token, ctx.request.body);
 
 
     if(ctx.params.token) {
@@ -57,13 +80,14 @@ const putToken = async function(ctx, next){
         debug("Token verified:", verified)
     }
 
-    if(!verified) {     //issue new token
-        ctx.body = {
-            token: makeTokenCode(),
-            seconds: 1200
-        }
+    if(!verified.verified) {     //issue new token
+        debug("Issuing a new token");
+        const token = tokenMap.set(makeTokenCode(), {});
+        debug("Full token is ", token);
+        ctx.body = token;
     } else {    //issue the same token
-
+        debug("Stored token is ", verified.storedToken);
+        ctx.body = verified.storedToken;
     }
 
 
@@ -72,7 +96,7 @@ const putToken = async function(ctx, next){
 }
 
 router.post("/api/code", putToken);
-//router.post("/api/code/:token", putToken);
+router.post("/api/code/:token", putToken);
 
 
 

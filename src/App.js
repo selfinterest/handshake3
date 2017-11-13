@@ -31,19 +31,34 @@ const getNewCode = (function(){
 
 const fetchSession = function(){
     // Look for an existing h3 session in local storage
-    const localSession = localStorage.getItem(H3_TOKEN_KEY);
+    let localSession;
+    try {
+        localSession = JSON.parse(localStorage.getItem(H3_TOKEN_KEY));
+    } catch  (e) {
+        console.log("Session was bad JSON");
+        localSession = null;
+    }
+
+
     let existingCode = '';
 
     const sessionInfo = {};
 
-    if(localSession) {
+    if(localSession && localSession.token) {
+        console.log("Found an existing session", localSession);
+
         existingCode = "/" + localSession.token;
         sessionInfo.session = localSession;
+    } else {
+        console.log("Session was malformed; getting a new one", localSession);
     }
 
     const request = new Request(API.getToken + existingCode, {
-        url: API.getToken + existingCode,
         method: "POST",
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(sessionInfo)
     });
 
@@ -52,7 +67,13 @@ const fetchSession = function(){
         code: getNewCode()
     })*/
 
-    return fetch(request).then( data => data.json())
+    return fetch(request)
+        .then( data => data.json())
+        .then(session => {
+            console.log("Saving session to local storage", session);
+            localStorage.setItem(H3_TOKEN_KEY, JSON.stringify(session));
+            return session;
+        })
 }
 class App extends Component {
 
