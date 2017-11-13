@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import Countdown from '../Countdown/Countdown';
 import Nato from "../Nato/Nato";
 import TokenInput from "../TokenInput/TokenInput";
+import Status from "../Status/Status";
+
 class BoxContent extends Component {
 
     //state = {loading: true};
+
+
 
     renderLoading(){
         return <div>Loading...</div>
@@ -33,10 +37,16 @@ class BoxContent extends Component {
                         <Nato code={this.props.token}/>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row space-below">
                     <div className="col-md-8 col-md-offset-2">
                         <TokenInput {...this.props}/>
                     </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-8 col-md-offset-2">
+                        <Status justAdded={this.props.justAdded}/>
+                    </div>
+
                 </div>
             </div>
         )

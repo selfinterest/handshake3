@@ -11,7 +11,7 @@ class TokenMap extends Map {
         const now = Date.now() / 1000;
         const elapsed = now - issued;
 
-        if(elapsed >= duration) {
+        if(elapsed >= duration && !token.session.noExpire) {
             return null;    //expired
         }
 

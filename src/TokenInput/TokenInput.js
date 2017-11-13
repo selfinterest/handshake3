@@ -63,9 +63,7 @@ class TokenInput extends Component {
                     })
                     .catch( (err) => {
                         console.warn(err);
-                        return {
-                            user: null
-                        }
+                        return null;
                     })
                     .then( data => {
 

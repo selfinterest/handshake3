@@ -82,11 +82,11 @@ const terrenceSession = {
     email: "parliamentaryterrence@gmail.com",
     twitter: "@TerrenceCWatson",
     facebook: "https://www.facebook.com/terrencewatson101",
-    homepage: "http://www.terrencewatson.com"
+    homepage: "http://www.terrencewatson.com",
 }
 
 //Add static entries to tokenMap
-tokenMap.set("TCW", terrenceSession);
+tokenMap.set("TCW", Object.assign(terrenceSession, {noExpire: true}));
 
 
 const putToken = async function(ctx, next){
@@ -137,11 +137,15 @@ router.get("/api/code/:code", async (ctx, next) => {
 
     const token = tokenMap.get(ctx.params.code);
 
-    if(!token) {
-        ctx.throw(404, new Error("Token not found"));
-    }
 
-    ctx.body = token.session;
+    if(!token) {
+        //ctx.body = null;
+        ctx.throw(404, new Error("Token not found"));
+    } else {
+
+        ctx.body = token.session;
+
+    }
 
 
 });

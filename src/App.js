@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import './App.css';
 import TabView from './TabView/TabView';
 import BoxContent from './BoxContent/BoxContent';
+import SideNav from "./SideNav/SideNav";
+
+
 
 
 import {H3_TOKEN_KEY, API} from "./constants";
@@ -83,12 +86,17 @@ class App extends Component {
 
         this.state = {
             loading: true,
-            onNewContact: this.onNewContact.bind(this)
+            onNewContact: this.onNewContact.bind(this),
+            justAdded: null
         }
     }
 
     onNewContact(contact) {
-        console.log(contact);
+
+        if(contact) {
+            this.setState({justAdded: contact});
+        }
+
     }
     componentWillMount(){
 
