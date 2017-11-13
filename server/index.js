@@ -60,7 +60,7 @@ const putToken = async function(ctx, next){
     if(!verified) {     //issue new token
         ctx.body = {
             token: makeTokenCode(),
-            seconds: 60
+            seconds: 1200
         }
     } else {    //issue the same token
 
