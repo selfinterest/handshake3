@@ -110,6 +110,10 @@ router.get("/api/code", async (ctx, next) => {
     }
 });
 
+router.get("/api/user/:code", async (ctx, next) => {
+
+})
+
 onerror(app);
 app.use(logger());
 app.use(bodyParser());

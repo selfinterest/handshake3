@@ -1,5 +1,7 @@
 const _ = require("lodash");
 const debug = require("debug")("handshake3");
+const DEFAULT_DURATION = 1200;
+
 class TokenMap extends Map {
     get(key) {
         const token = super.get(key);
@@ -31,12 +33,12 @@ class TokenMap extends Map {
         super.set(key, {
             issued: Date.now() / 1000,
             code: key,
-            duration: 1200,
+            duration: DEFAULT_DURATION,
             session: session
         });
 
         const tokenForClient = {
-            seconds: 1200,
+            seconds: DEFAULT_DURATION,
             session: session,
             token: key
         }
