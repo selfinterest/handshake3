@@ -85,8 +85,19 @@ const terrenceSession = {
     homepage: "http://www.terrencewatson.com",
 }
 
+const dadSession = {
+    id: "f9221",
+    displayName: "Chuck Watson",
+    firstName: "Charles",
+    lastName: "Watson",
+    email: "chuck@energychaser.com",
+    homepage: "http://energychaser.com"
+}
+
 //Add static entries to tokenMap
 tokenMap.set("TCW", Object.assign(terrenceSession, {noExpire: true}));
+tokenMap.set("CDW", Object.assign(dadSession, {noExpire: true}));
+
 
 
 const putToken = async function(ctx, next){
