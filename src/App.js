@@ -58,6 +58,10 @@ const fetchSession = function(){
         console.log("Session was malformed; getting a new one", localSession);
     }
 
+    /*if(localSession.seconds < 0) {  //if for whatever reason the session is in the negative, get a new code
+        existingCode = '';
+    }*/
+
     const request = new Request(API.getToken + existingCode, {
         method: "POST",
         headers: {
@@ -119,8 +123,9 @@ class App extends Component {
             this.setState( () => {
                 const seconds = this.state.seconds;
                 const newSeconds = seconds - 1;
-
+                console.log(seconds);
                 if(newSeconds < 0) {
+                    console.log("Expiration");
                     //time expired. Generate new token. This would be asynchronous normally.
                     fetchSession()
                         .then(data => {
@@ -174,9 +179,11 @@ class App extends Component {
     render(){
         return (<div className="App">
             <div className="container menu-container">
+                <div className="pull-left">
+                    <div>My Profile: <b>Shoobx Drive</b></div>
+                </div>
                 <div className="connections-menu pull-right">
                     <ConnectionsMenu connections={this.state.connections}/>
-
                 </div>
             </div>
 

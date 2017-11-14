@@ -97,8 +97,8 @@ const dadSession = {
 //Add static entries to tokenMap
 
 const addStatics = function addStatics(){
-    tokenMap.set("TCW", Object.assign(terrenceSession, {noExpire: true}));
-    tokenMap.set("CDW", Object.assign(dadSession, {noExpire: true}));
+    tokenMap.set("TCW", Object.assign({}, terrenceSession, {noExpire: true}));
+    tokenMap.set("CDW", Object.assign({}, dadSession, {noExpire: true}));
 }
 
 
