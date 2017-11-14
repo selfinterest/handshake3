@@ -80,10 +80,11 @@ const terrenceSession = {
     firstName: "Terrence",
     lastName: "Watson",
     email: "parliamentaryterrence@gmail.com",
-    twitter: "@TerrenceCWatson",
+    twitter: "https://twitter.com/TerrenceCWatson",
     facebook: "https://www.facebook.com/terrencewatson101",
     homepage: "http://www.terrencewatson.com",
-    company: "HandshakeThree"
+    company: "HandshakeThree",
+    photo: "tcw.jpg"
 }
 
 const dadSession = {
@@ -98,7 +99,7 @@ const dadSession = {
 
 const otherSessions = {
     "BVP": {
-        id: "arfs",
+        id: "bvp",
         displayName: "Kent Bennett",
         firstName: "Kent",
         lastName: "Bennett",
@@ -106,18 +107,83 @@ const otherSessions = {
         company: "Bessemer Venture Partners",
         twitter: "https://twitter.com/kentbennett",
         photo: "kb.jpg"
-
     },
-    "David Chang": {
-
+    "DSC": {
+        id: "dchang",
+        displayName: "David Chang",
+        firstName: "David",
+        lastName: "Chang",
+        homepage: "http://www.davidchang.me/",
+        twitter: "http://www.twitter.com/changds",
+        photo: "dchang.jpg"
+    },
+    "BEC": {
+        id: "bclarke",
+        displayName: "Barbara Clarke",
+        firstName: "Barbara",
+        lastName: "Clark",
+        homepage: "https://angel.co/barbara-clarke",
+        twitter: "https://twitter.com/beclarke",
+    },
+    "PSH": {
+        id: "phenderson",
+        displayName: "Paul Henderson",
+        firstName: "Paul",
+        lastName: "Henderson",
+        homepage: "http://coursekicker.com",
+        company: "CourseKicker",
+        twitter: "https://twitter.com/paulshenderson"
+    },
+    "NMI": {
+        id: "nmeisner",
+        displayName: "Norm Meisner",
+        firstName: "Norman",
+        lastName: "Meisner",
+        homepage: "https://www.linkedin.com/in/norman-meisner-734181/",
+        company: "Beta Fund"
+    },
+    "SHR": {
+        id: "shermaks",
+        displayName: "Shereen Shermak",
+        firstName: "Shereen",
+        lastName: "Shermak",
+        twitter: "https://twitter.com/shrcubed",
+    },
+    "NSS": {
+        id: "statan",
+        displayName: "Nicole Stata",
+        firstName: "Nicole",
+        lastName: "Stata",
+        company: "Boston Seed Capital",
+        homepage: "http://www.bostonseed.com"
+    },
+    "CFW": {
+        id: "whitec",
+        displayName: "Catherine White",
+        firstName: "Catherine",
+        lastName: "White",
+        company: "FinArc Investments",
+        homepage: "https://www.finarc.com"
     }
+
+
+
+
+
 }
 
 //Add static entries to tokenMap
 
 const addStatics = function addStatics(){
+    debug("Adding statics");
     tokenMap.set("TCW", Object.assign({}, terrenceSession, {noExpire: true}));
     tokenMap.set("CDW", Object.assign({}, dadSession, {noExpire: true}));
+
+
+    Object.keys(otherSessions).forEach ( key => {
+        debug("Adding ", key);
+        tokenMap.set(key, Object.assign({}, otherSessions[key], {noExpire: true}))
+    })
 }
 
 
