@@ -123,7 +123,7 @@ class App extends Component {
             this.setState( () => {
                 const seconds = this.state.seconds;
                 const newSeconds = seconds - 1;
-                console.log(seconds);
+
                 if(newSeconds < 0) {
                     console.log("Expiration");
                     //time expired. Generate new token. This would be asynchronous normally.
@@ -133,12 +133,6 @@ class App extends Component {
                             setTimeout(handleTimeout, 1000);
                         })
 
-
-                    /*return {
-                        duration: DEFAULT_DURATION,
-                        code: getNewCode(),
-                        loading: false
-                    }*/
 
                 } else {
 

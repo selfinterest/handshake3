@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const debug = require("debug")("handshake3");
-const DEFAULT_DURATION = 10 //1200;
+const DEFAULT_DURATION = 1200;
 
 class TokenMap extends Map {
     get(key) {

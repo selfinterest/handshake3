@@ -83,6 +83,7 @@ const terrenceSession = {
     twitter: "@TerrenceCWatson",
     facebook: "https://www.facebook.com/terrencewatson101",
     homepage: "http://www.terrencewatson.com",
+    company: "HandshakeThree"
 }
 
 const dadSession = {
@@ -91,7 +92,25 @@ const dadSession = {
     firstName: "Charles",
     lastName: "Watson",
     email: "chuck@energychaser.com",
-    homepage: "http://energychaser.com"
+    homepage: "http://energychaser.com",
+    company: "Energy Chaster"
+}
+
+const otherSessions = {
+    "BVP": {
+        id: "arfs",
+        displayName: "Kent Bennett",
+        firstName: "Kent",
+        lastName: "Bennett",
+        homepage: "https://www.bvp.com/team/kent-bennett",
+        company: "Bessemer Venture Partners",
+        twitter: "https://twitter.com/kentbennett",
+        photo: "kb.jpg"
+
+    },
+    "David Chang": {
+
+    }
 }
 
 //Add static entries to tokenMap
