@@ -8,7 +8,9 @@ const onerror = require("koa-onerror");
 const debug = require("debug")("handshake3");
 const _ = require("lodash");
 const fs = require("fs");
+const path = require("path");
 const TokenMap = require("./TokenMap");
+const serve = require("koa-static");
 
 const app = new Koa();
 const router = new Router();
@@ -267,11 +269,21 @@ router.get("/api/profile-images/:image", async(ctx) => {
 
 });
 
+
+
 onerror(app);
 app.use(logger());
 app.use(bodyParser());
+//if(process.env.NODE_ENV === "production") {
+    app.use(serve(path.join(__dirname, "..", "build")));
+    router.get("/", async(ctx) => {
+        ctx.body = fs.createReadStream(__dirname, "..", "build", "index.html");
+    });
+//}
 app.use(router.routes());
 
-app.listen(3001, function(){
-    console.log("Handshake3 server listening on 3000");
+
+const port = process.env.PORT || 3001;
+app.listen(port, function(){
+    console.log("Handshake3 server listening on "+port);
 });

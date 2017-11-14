@@ -12,6 +12,7 @@
     "koa-logger": "^3.1.0",
     "koa-onerror": "^4.0.0",
     "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
     "localforage": "^1.5.3",
     "lodash": "^4.17.4",
     "moment": "^2.19.2",
@@ -19,8 +20,7 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.17",
-    "request": "^2.83.0"
+    "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
