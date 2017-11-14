@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Dropdown, MenuItem, Modal} from "react-bootstrap";
+import {Dropdown, MenuItem} from "react-bootstrap";
 import ReactDOM from 'react-dom';
+import ProfileView from "../ProfileView/ProfileView";
 import './ConnectionsMenu.css';
 
 class CustomToggle extends React.Component {
@@ -103,7 +104,7 @@ class ConnectionsMenu extends Component{
         super(props);
 
         this.selectContact = this.selectContact.bind(this);
-
+        this.exitProfile = this.exitProfile.bind(this);
         this.state = {
             selectedContact: null
         }
@@ -119,8 +120,12 @@ class ConnectionsMenu extends Component{
             })
         }
 
-
     }
+
+    exitProfile(){
+        this.setState({selectedContact: null})
+    }
+
 
     render() {
         const connections = this.props.connections;
@@ -128,15 +133,20 @@ class ConnectionsMenu extends Component{
             return <MenuItem eventKey={i} key={'connection' + i} onSelect={this.selectContact}>{connection.displayName}</MenuItem>
         })
         return (
-            <Dropdown id="h3-dropdown" pullRight={true}>
-                <CustomToggle bsRole="toggle">
-                    { this.props.connections.length}
-                </CustomToggle>
+            <div>
+                <Dropdown id="h3-dropdown" pullRight={true}>
+                    <CustomToggle bsRole="toggle">
+                        { this.props.connections.length}
+                    </CustomToggle>
 
-                <CustomMenu bsRole="menu">
-                    { menuItems }
-                </CustomMenu>
-            </Dropdown>
+                    <CustomMenu bsRole="menu">
+                        { menuItems }
+                    </CustomMenu>
+                </Dropdown>
+                <ProfileView selectedContact={this.state.selectedContact} exitProfile={this.exitProfile}/>
+
+            </div>
+
 
         )
     }
