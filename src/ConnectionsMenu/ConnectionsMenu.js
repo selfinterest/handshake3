@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Dropdown, MenuItem} from "react-bootstrap";
+import {Dropdown, MenuItem, Modal} from "react-bootstrap";
 import ReactDOM from 'react-dom';
 import './ConnectionsMenu.css';
 
@@ -8,6 +8,11 @@ class CustomToggle extends React.Component {
         super(props, context);
 
         this.handleClick = this.handleClick.bind(this);
+
+        this.state = {
+            connections: [],
+            menuItems: []
+        }
     }
 
     handleClick(e) {
@@ -94,7 +99,34 @@ class CustomMenu extends React.Component {
 //     }
 // }
 class ConnectionsMenu extends Component{
+    constructor(props) {
+        super(props);
+
+        this.selectContact = this.selectContact.bind(this);
+
+        this.state = {
+            selectedContact: null
+        }
+    }
+
+    selectContact(eventKey){
+        //determine which contact was selected
+        const contact = this.props.connections[eventKey];
+
+        if(contact) {
+            this.setState({
+                selectedContact: contact
+            })
+        }
+
+
+    }
+
     render() {
+        const connections = this.props.connections;
+        const menuItems = connections.map( (connection, i) => {
+            return <MenuItem eventKey={i} key={'connection' + i} onSelect={this.selectContact}>{connection.displayName}</MenuItem>
+        })
         return (
             <Dropdown id="h3-dropdown" pullRight={true}>
                 <CustomToggle bsRole="toggle">
@@ -102,10 +134,7 @@ class ConnectionsMenu extends Component{
                 </CustomToggle>
 
                 <CustomMenu bsRole="menu">
-                    <MenuItem eventKey="1">Red</MenuItem>
-                    <MenuItem eventKey="2">Blue</MenuItem>
-                    <MenuItem eventKey="3" active>Orange</MenuItem>
-                    <MenuItem eventKey="1">Red-Orange</MenuItem>
+                    { menuItems }
                 </CustomMenu>
             </Dropdown>
 
