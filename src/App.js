@@ -8,11 +8,11 @@ import TabView from './TabView/TabView';
 import BoxContent from './BoxContent/BoxContent';
 import ConnectionsMenu from './ConnectionsMenu/ConnectionsMenu'
 import SideNav from "./SideNav/SideNav";
+import * as localForage from "localforage";
 
 
 
-
-import {H3_TOKEN_KEY, API} from "./constants";
+import {H3_TOKEN_KEY, API, H3_CONTACTS_KEY} from "./constants";
 
 
 const getNewCode = (function(){
@@ -67,10 +67,6 @@ const fetchSession = function(){
         body: JSON.stringify(sessionInfo)
     });
 
-    /*return Promise.resolve({
-        seconds: DEFAULT_DURATION,
-        code: getNewCode()
-    })*/
 
     return fetch(request)
         .then( data => data.json())
@@ -80,6 +76,15 @@ const fetchSession = function(){
             return session;
         })
 }
+
+const fetchContacts = function(){
+    return localForage.getItem(H3_CONTACTS_KEY)
+        .then(contacts => {
+            if(!contacts) return [];
+            return contacts;
+        });
+}
+
 class App extends Component {
 
 
@@ -89,7 +94,8 @@ class App extends Component {
         this.state = {
             loading: true,
             onNewContact: this.onNewContact.bind(this),
-            justAdded: null
+            justAdded: null,
+            connections: []
         }
     }
 
@@ -97,11 +103,17 @@ class App extends Component {
 
         if(contact) {
             this.setState({justAdded: contact});
+            if(!this.state.connections.find( c => c.id === contact.id)) {
+                console.log("Adding contact to list ",  contact);
+                const connections = [...this.state.connections, contact];
+                this.setState({connections});
+                localForage.setItem(H3_CONTACTS_KEY, connections)
+            }
+
         }
 
     }
     componentWillMount(){
-
 
         const handleTimeout = () => {
             this.setState( () => {
@@ -134,11 +146,20 @@ class App extends Component {
 
         }
 
-        fetchSession().then(data  => {
+        Promise.all([fetchSession(), fetchContacts()])
+            .then( result => {
+                const [session, contacts] = result;
+                this.setState(Object.assign({}, session, {connections: contacts}));
+
+                setTimeout(handleTimeout, 1000);
+
+            })
+
+        /*fetchSession().then(data  => {
             console.log(data);
             this.setState(data);
             setTimeout(handleTimeout, 1000);
-        });
+        });*/
 
         //this.setState({seconds: DEFAULT_DURATION, code: getNewCode()});
 
@@ -154,14 +175,14 @@ class App extends Component {
         return (<div className="App">
             <div className="container menu-container">
                 <div className="connections-menu pull-right">
-                    <ConnectionsMenu connections='5'/>
+                    <ConnectionsMenu connections={this.state.connections}/>
 
                 </div>
             </div>
 
             <div className="jumbotron vertical-center App-container">
                 <div className="container text-center">
-                    <img src={logo} className="logo"/>
+                    <img src={logo} className="logo" alt="logo"/>
                     <BoxContent {...this.state}/>
                 </div>
             </div>

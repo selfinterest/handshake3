@@ -45,6 +45,15 @@ class TokenMap extends Map {
 
         return tokenForClient;
     }
+
+    toJSON(){
+        const obj = {};
+        const entries = Array.from(this);
+
+        return entries;
+
+    }
+
 }
 
 module.exports = TokenMap;

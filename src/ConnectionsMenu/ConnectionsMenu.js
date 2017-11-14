@@ -98,7 +98,7 @@ class ConnectionsMenu extends Component{
         return (
             <Dropdown id="h3-dropdown" pullRight={true}>
                 <CustomToggle bsRole="toggle">
-                    { this.props.connections}
+                    { this.props.connections.length}
                 </CustomToggle>
 
                 <CustomMenu bsRole="menu">

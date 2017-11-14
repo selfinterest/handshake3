@@ -95,10 +95,14 @@ const dadSession = {
 }
 
 //Add static entries to tokenMap
-tokenMap.set("TCW", Object.assign(terrenceSession, {noExpire: true}));
-tokenMap.set("CDW", Object.assign(dadSession, {noExpire: true}));
+
+const addStatics = function addStatics(){
+    tokenMap.set("TCW", Object.assign(terrenceSession, {noExpire: true}));
+    tokenMap.set("CDW", Object.assign(dadSession, {noExpire: true}));
+}
 
 
+addStatics();
 
 const putToken = async function(ctx, next){
     let verified = {};
@@ -160,6 +164,17 @@ router.get("/api/code/:code", async (ctx, next) => {
 
 
 });
+
+router.get("/api/admin/codes", async (ctx, next) => {
+   ctx.body = tokenMap.toJSON();
+});
+
+router.get("/api/admin/codes/flush", async(ctx, next) => {
+    tokenMap.clear();
+    addStatics();
+    ctx.body = tokenMap.toJSON();
+    //Add the statics again
+})
 
 onerror(app);
 app.use(logger());

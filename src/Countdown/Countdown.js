@@ -5,7 +5,13 @@ class Countdown extends Component {
     render(){
         const seconds = this.props.count;
         const mom = moment.duration(seconds, "seconds");
-        const time = `${mom.get('minutes')}m ${mom.get('seconds')}s`;
+        let time;
+        if(seconds >= 0) {
+            time = `${mom.get('minutes')}m ${mom.get('seconds')}s`;
+        } else {
+            time = '∞';
+        }
+
 
         return (
             <div>Time remaining: {time}</div>
