@@ -7,6 +7,7 @@ const logger = require("koa-logger");
 const onerror = require("koa-onerror");
 const debug = require("debug")("handshake3");
 const _ = require("lodash");
+const fs = require("fs");
 const TokenMap = require("./TokenMap");
 
 const app = new Koa();
@@ -259,7 +260,12 @@ router.get("/api/admin/codes/flush", async(ctx, next) => {
     addStatics();
     ctx.body = tokenMap.toJSON();
     //Add the statics again
-})
+});
+
+router.get("/api/profile-images/:image", async(ctx) => {
+   const stream = ctx.body = fs.createReadStream(__dirname + "/profiles/" + ctx.params.image);
+
+});
 
 onerror(app);
 app.use(logger());

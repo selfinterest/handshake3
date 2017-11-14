@@ -35,7 +35,7 @@ class Profile extends Component {
             case "homepage":
                 return <a href={data} alt="homepage">{data}</a>;
             case "photo":
-                return <img src={ "/api/profile-images/" + data}/>
+                return <img className="profile image" src={ "/api/profile-images/" + data}/>
             default:
                 return <span><b>{which}:</b>  {data}</span>;
         }

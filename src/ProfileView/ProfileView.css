@@ -3,3 +3,8 @@
     height: 12px;
     margin-right: 5px;
 }
+
+.profile.image {
+    width: 150px;
+    height: 150px;
+}
