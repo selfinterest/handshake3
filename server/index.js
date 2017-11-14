@@ -84,7 +84,7 @@ const terrenceSession = {
     facebook: "https://www.facebook.com/terrencewatson101",
     homepage: "http://www.terrencewatson.com",
     company: "HandshakeThree",
-    photo: "tcw.jpg"
+    photo: "tcw2.jpg"
 }
 
 const dadSession = {
